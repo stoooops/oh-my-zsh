@@ -7,16 +7,7 @@ function prompt_char {
     echo '$'
 }
 
-function battery_charge {
-    echo `$BAT_CHARGE` 2>/dev/null
-}
-
-function virtualenv_info {
-    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
-}
-
-
-PROMPT='%{$fg[magenta]%}%n%{$reset_color%}%{$fg[black]%}@%{$fg[yellow]%}%m%{$reset_color%}%{$fg[black]%}:%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}$(hg_prompt_info)$(virtualenv_info)$(prompt_char) '
+PROMPT='%{$fg[yellow]%}[%{$fg[magenta]%}%n%{$fg[black]%}@%{$fg[cyan]%}%m%{$fg[black]%}:%{$fg_bold[green]%}$(collapse_pwd)%{$fg[yellow]%}]%{$reset_color%}$(prompt_char) '
 
 RPROMPT='$(git_prompt_info) %{$fg[blue]%}%*%{$reset_color%}'
 
