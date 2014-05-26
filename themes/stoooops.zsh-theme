@@ -9,11 +9,11 @@ function prompt_char {
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%}!"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[green]%}?"
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_green}+"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[red]%}!"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[cyan]%}?"
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg[green]%}+"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[yellow]%}↑"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
-
 
 ZSH_THEME_COLOR_USER="magenta"
 ZSH_THEME_COLOR_AT="black"
@@ -26,7 +26,7 @@ ZSH_THEME_COLOR_PROMPT_CHAR="white"
 # change user/host colors if ssh'd
 test -n "$SSH_CONNECTION" && ZSH_THEME_COLOR_USER="red"
 
-PROMPT='%{$fg_bold[$ZSH_THEME_COLOR_BRACKETS]%}[%{$fg_bold[$ZSH_THEME_COLOR_USER]%}%n%{$fg_bold[$ZSH_THEME_COLOR_AT]%}@%{$fg_bold[$ZSH_THEME_COLOR_HOST]%}%m%{$fg_bold[$ZSH_THEME_COLOR_COLON]%}:%{$fg_bold[$ZSH_THEME_COLOR_PWD]%}$(collapse_pwd)%{$fg_bold[$ZSH_THEME_COLOR_BRACKETS]%}]%{$fg_bold[$ZSH_THEME_COLOR_PROMPT_CHAR]%}$(prompt_char)%{$reset_color%} '
+PROMPT='%{$fg_no_bold[$ZSH_THEME_COLOR_BRACKETS]%}[%{$fg_no_bold[$ZSH_THEME_COLOR_USER]%}%n%{$fg_no_bold[$ZSH_THEME_COLOR_AT]%}@%{$fg_no_bold[$ZSH_THEME_COLOR_HOST]%}%M%{$fg_no_bold[$ZSH_THEME_COLOR_COLON]%}:%{$fg_no_bold[$ZSH_THEME_COLOR_PWD]%}$(collapse_pwd)%{$fg_no_bold[$ZSH_THEME_COLOR_BRACKETS]%}]%{$fg_no_bold[$ZSH_THEME_COLOR_PROMPT_CHAR]%}$(prompt_char)%{$reset_color%} '
 
-RPROMPT='$(git_prompt_info) %{$fg[blue]%}%*%{$reset_color%}'
+RPROMPT='$(git_prompt_info)$(git_prompt_status)$(git_prompt_ahead) %{$fg[blue]%}%*%{$reset_color%}'
 
