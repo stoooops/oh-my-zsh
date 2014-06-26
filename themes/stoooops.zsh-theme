@@ -4,7 +4,7 @@ function collapse_pwd {
 
 function prompt_char {
     git branch >/dev/null 2>/dev/null && echo '±' && return
-    echo '$'
+    echo "$"
 }
 
 # copied and modified from lib/git.zsh:git_prompt_info()
@@ -22,10 +22,18 @@ function my_git_prompt_status() {
 
   # ahead/behind/diverged
   if $(echo "$INDEX" | grep '^## .*ahead' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_AHEAD$STATUS"
+    NUM_AHEAD=$( command echo "$INDEX" | grep '^## .*ahead' | cut -d "[" -f2 | cut -d "]" -f1 | cut -d " " -f2)
+    for i in {1..$ecNUM_AHEAD}
+    do
+      STATUS="$ZSH_THEME_GIT_PROMPT_AHEAD$STATUS"
+    done
   fi
   if $(echo "$INDEX" | grep '^## .*behind' &> /dev/null); then
-    STATUS="$ZSH_THEME_GIT_PROMPT_BEHIND$STATUS"
+    NUM_BEHIND=$( command echo "$INDEX" | grep '^## .*behind' | cut -d "[" -f2 | cut -d "]" -f1 | cut -d " " -f2)
+    for i in {1..$ecNUM_AHEAD}
+    do
+      STATUS="$ZSH_THEME_GIT_PROMPT_BEHIND$STATUS"
+    done
   fi
   if $(echo "$INDEX" | grep '^## .*diverged' &> /dev/null); then
     STATUS="$ZSH_THEME_GIT_PROMPT_DIVERGED$STATUS"
