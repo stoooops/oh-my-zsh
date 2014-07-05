@@ -1,3 +1,6 @@
+# turn on command substitution in the prompt
+setopt prompt_subst
+
 function collapse_pwd {
     echo $(pwd | sed -e "s,^$HOME,~,")
 }
