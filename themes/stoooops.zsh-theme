@@ -26,14 +26,14 @@ function my_git_prompt_status() {
   # ahead/behind/diverged
   if $(echo "$INDEX" | grep '^## .*ahead' &> /dev/null); then
     NUM_AHEAD=$( command echo "$INDEX" | grep '^## .*ahead' | cut -d "[" -f2 | cut -d "]" -f1 | cut -d " " -f2)
-    for i in {1..$ecNUM_AHEAD}
+    for i in {1..$NUM_AHEAD}
     do
       STATUS="$ZSH_THEME_GIT_PROMPT_AHEAD$STATUS"
     done
   fi
   if $(echo "$INDEX" | grep '^## .*behind' &> /dev/null); then
     NUM_BEHIND=$( command echo "$INDEX" | grep '^## .*behind' | cut -d "[" -f2 | cut -d "]" -f1 | cut -d " " -f2)
-    for i in {1..$ecNUM_AHEAD}
+    for i in {1..$NUM_AHEAD}
     do
       STATUS="$ZSH_THEME_GIT_PROMPT_BEHIND$STATUS"
     done
