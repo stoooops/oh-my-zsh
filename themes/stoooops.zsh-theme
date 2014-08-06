@@ -1,6 +1,10 @@
 # turn on command substitution in the prompt
 setopt prompt_subst
 
+# Make sure colors load properly when this file is sourced on its own
+source $ZSH/lib/spectrum.zsh
+autoload -U colors && colors
+
 function collapse_pwd {
     echo $(pwd | sed -e "s,^$HOME,~,")
 }
@@ -57,7 +61,26 @@ function my_git_prompt_status() {
   fi
   
   # dirty
-  STATUS="$(parse_git_dirty)$STATUS"
+  local SUBMODULE_SYNTAX=''
+  local GIT_STATUS=''
+  local CLEAN_MESSAGE='nothing to commit (working directory clean)'
+  if [[ "$(command git config --get oh-my-zsh.hide-status)" != "1" ]]; then
+    if [[ $POST_1_7_2_GIT -gt 0 ]]; then
+      SUBMODULE_SYNTAX="--ignore-submodules=dirty"
+    fi
+    if [[ "$DISABLE_UNTRACKED_FILES_DIRTY" == "true" ]]; then
+      GIT_STATUS=$(command git status -s ${SUBMODULE_SYNTAX} -uno 2> /dev/null | tail -n1)
+    else
+      GIT_STATUS=$(command git status -s ${SUBMODULE_SYNTAX} 2> /dev/null | tail -n1)
+    fi
+    if [[ -n $GIT_STATUS ]]; then
+      STATUS="$ZSH_THEME_GIT_PROMPT_DIRTY$STATUS"
+    else
+      STATUS="$ZSH_THEME_GIT_PROMPT_CLEAN$STATUS"
+    fi
+  else
+    STATUS="$ZSH_THEME_GIT_PROMPT_CLEAN$STATUS"
+  fi
 
   # added
   if $(echo "$INDEX" | grep '^A  ' &> /dev/null); then
@@ -89,6 +112,7 @@ function my_git_prompt_status() {
   if $(echo "$INDEX" | grep '^UU ' &> /dev/null); then
     STATUS="$ZSH_THEME_GIT_PROMPT_UNMERGED$STATUS"
   fi
+
   echo $STATUS
 }
 
@@ -115,7 +139,9 @@ ZSH_THEME_COLOR_PROMPT_CHAR="white"
 # change user/host colors if ssh'd
 test -n "$SSH_CONNECTION" && ZSH_THEME_COLOR_USER="red"
 
+#setopt PROMPT_SUBST
+
 PROMPT='%{$fg_no_bold[$ZSH_THEME_COLOR_BRACKETS]%}[%{$fg_no_bold[$ZSH_THEME_COLOR_USER]%}%n%{$fg_no_bold[$ZSH_THEME_COLOR_AT]%}@%{$fg_no_bold[$ZSH_THEME_COLOR_HOST]%}%M%{$fg_no_bold[$ZSH_THEME_COLOR_COLON]%}:%{$fg_no_bold[$ZSH_THEME_COLOR_PWD]%}$(collapse_pwd)%{$fg_no_bold[$ZSH_THEME_COLOR_BRACKETS]%}]%{$fg_no_bold[$ZSH_THEME_COLOR_PROMPT_CHAR]%}$(prompt_char)%{$reset_color%} '
 
-RPROMPT='$(my_git_prompt_branch)$(my_git_prompt_status)%{$reset_color%}'
+#RPROMPT='$(my_git_prompt_branch)$(my_git_prompt_status)%{$reset_color%}'
 
