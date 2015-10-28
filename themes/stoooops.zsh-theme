@@ -6,12 +6,15 @@ source $ZSH/lib/spectrum.zsh
 autoload -U colors && colors
 
 function collapse_pwd {
-    echo $(pwd | sed -e "s,^$HOME,~,")
+  echo $(pwd | sed -e "s,^$HOME,~,")
 }
 
 function prompt_char {
-    git branch >/dev/null 2>/dev/null && echo '±' && return
+  if [ "$STOOOOPS_OH_MY_ZSH_THEME_DISABLE_SPECIAL_PROMPT_CHAR" != true ]; then
+    git branch >/dev/null 2>/dev/null && echo '±'
+  else
     echo "$"
+  fi
 }
 
 # copied and modified from lib/git.zsh:git_prompt_info()
