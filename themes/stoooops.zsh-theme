@@ -143,5 +143,6 @@ test -n "$SSH_CONNECTION" && ZSH_THEME_COLOR_USER="red"
 
 PROMPT='%{$fg_no_bold[$ZSH_THEME_COLOR_BRACKETS]%}[%{$fg_no_bold[$ZSH_THEME_COLOR_USER]%}%n%{$fg_no_bold[$ZSH_THEME_COLOR_AT]%}@%{$fg_no_bold[$ZSH_THEME_COLOR_HOST]%}%M%{$fg_no_bold[$ZSH_THEME_COLOR_COLON]%}:%{$fg_no_bold[$ZSH_THEME_COLOR_PWD]%}$(collapse_pwd)%{$fg_no_bold[$ZSH_THEME_COLOR_BRACKETS]%}]%{$fg_no_bold[$ZSH_THEME_COLOR_PROMPT_CHAR]%}$(prompt_char)%{$reset_color%} '
 
-#RPROMPT='$(my_git_prompt_branch)$(my_git_prompt_status)%{$reset_color%}'
-
+if [ "$STOOOOPS_OH_MY_ZSH_THEME_DISABLE_RPROMPT" != true ]; then
+  RPROMPT='$(my_git_prompt_branch)$(my_git_prompt_status)%{$reset_color%}'
+fi
